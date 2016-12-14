@@ -32,7 +32,6 @@ namespace Logic.Database
         /// <param name="password">Password</param>
         public void Login(string login, string password)
         {
-            var conc = (from c in context.Concerts select c).ToList();
             var users = context.Users;
             DbUser dbUser = users.ToList().Find(u => login.Equals(u.Login));
 
