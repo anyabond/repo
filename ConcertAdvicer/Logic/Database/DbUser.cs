@@ -10,7 +10,7 @@ namespace Logic.Database
     /// <summary>
     /// Class represents user as field of DB
     /// </summary>
-    internal class DbUser : User
+    public class DbUser : User
     {
         [Key]
         public int Id { get; set; }

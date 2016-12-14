@@ -17,7 +17,7 @@ namespace Logic.Database
             
         }
 
-        internal DbSet<DbConcert> Concerts { get; set; }
-        internal DbSet<DbUser> Users { get; set; }
+        public DbSet<DbConcert> Concerts { get; set; }
+        public DbSet<DbUser> Users { get; set; }
     }
 }

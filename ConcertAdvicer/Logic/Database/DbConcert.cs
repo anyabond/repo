@@ -8,7 +8,7 @@ namespace Logic.Database
     /// <summary>
     /// Class represents concert as field of DB
     /// </summary>
-    internal class DbConcert : Concert
+    public class DbConcert : Concert
     {
         [Key]
         public int dbId { get; set; }
