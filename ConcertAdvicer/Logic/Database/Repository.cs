@@ -118,9 +118,9 @@ namespace Logic.Database
         public List<Concert> CityConcerstBetweenDates(string city, DateTime fr, DateTime to)
         {
             return (from conc in context.Concerts
-                    where (conc.Date >= fr && conc.Date <= to && conc.Location.Equals(city))
-                    orderby conc.Date
-                    select conc).ToList().ConvertAll(c=>c.ToConcert());
+                where (conc.Date >= fr && conc.Date <= to && conc.Location.Equals(city))
+                orderby conc.Date
+                select conc).ToList().ConvertAll(c => c.ToConcert());
         }
 
         /// <summary>
@@ -138,8 +138,26 @@ namespace Logic.Database
         /// <param name="concertid">id of concert to be added</param>
         public void AddToWishlist(int concertid)
         {
-            currentUser.Wishlist.Add(context.Concerts.ToList().Find(c => c.ID == concertid));
-            context.SaveChanges();
+            if (currentUser.Wishlist.Find(c => c.ID == concertid) == null)
+            {
+                currentUser.Wishlist.Add(context.Concerts.ToList().Find(c => c.ID == concertid));
+                context.SaveChanges();
+            }
+            else throw new Exception("Concert already in your wishlist!");
+        }
+
+        /// <summary>
+        /// Removes concert with passed id from user's wishlist
+        /// </summary>
+        /// <param name="concertid"></param>
+        public void RemoveFromWishlist(int concertid)
+        {
+            DbConcert concert = currentUser.Wishlist.Find(c => c.ID == concertid);
+            if (concert != null)
+            {
+                currentUser.Wishlist.Remove(concert);
+                context.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -154,12 +172,12 @@ namespace Logic.Database
             {
                 context.Concerts.AddOrUpdate(x => x.ID, concert);
             }
-            List<DbConcert>remove = new List<DbConcert>();
+            List<DbConcert> remove = new List<DbConcert>();
 
             // remove old concerts
             foreach (DbConcert contextConcert in context.Concerts)
             {
-                if(contextConcert.Date<DateTime.Now)
+                if (contextConcert.Date < DateTime.Now)
                     remove.Add(contextConcert);
             }
             context.Concerts.RemoveRange(remove);
