@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Logic.DataLoading;
 
 namespace Logic.Database
 {
@@ -107,30 +109,18 @@ namespace Logic.Database
         }
 
         /// <summary>
-        /// Gets all concerts in particular city
+        /// Gets concerts in passed city between dates
         /// </summary>
-        /// <param name="city">City to find concerts in</param>
-        /// <returns>List of concerts in passed city</returns>
-        public List<Concert> CityConcerts(string city)
+        /// <param name="city">City to find concerts</param>
+        /// <param name="fr">Start of interval</param>
+        /// <param name="to">End of interval</param>
+        /// <returns></returns>
+        public List<Concert> CityConcerstBetweenDates(string city, DateTime fr, DateTime to)
         {
             return (from conc in context.Concerts
-                where conc.Location.Equals(city)
-                orderby conc.Date
-                select conc.ToConcert()).ToList();
-        }
-
-        /// <summary>
-        /// Gets all concerts between passed dates
-        /// </summary>
-        /// <param name="fr">Start of time interval</param>
-        /// <param name="to">End of time interval</param>
-        /// <returns>List of concerts between dates</returns>
-        public List<Concert> ConcertsBetweenDates(DateTime fr, DateTime to)
-        {
-            return (from conc in context.Concerts
-                where (conc.Date >= fr && conc.Date <= to)
-                orderby conc.Date
-                select conc.ToConcert()).ToList();
+                    where (conc.Date >= fr && conc.Date <= to && conc.Location.Equals(city))
+                    orderby conc.Date
+                    select conc).ToList().ConvertAll(c=>c.ToConcert());
         }
 
         /// <summary>
@@ -149,6 +139,30 @@ namespace Logic.Database
         public void AddToWishlist(int concertid)
         {
             currentUser.Wishlist.Add(context.Concerts.ToList().Find(c => c.ID == concertid));
+            context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Updates DB with fresh data
+        /// </summary>
+        public void UpdateDb()
+        {
+            DataLoader dl = new DataLoader();
+
+            // upload new concerts
+            foreach (DbConcert concert in dl.GetConcerts())
+            {
+                context.Concerts.AddOrUpdate(x => x.ID, concert);
+            }
+            List<DbConcert>remove = new List<DbConcert>();
+
+            // remove old concerts
+            foreach (DbConcert contextConcert in context.Concerts)
+            {
+                if(contextConcert.Date<DateTime.Now)
+                    remove.Add(contextConcert);
+            }
+            context.Concerts.RemoveRange(remove);
             context.SaveChanges();
         }
     }
