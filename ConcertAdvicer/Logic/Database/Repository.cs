@@ -65,11 +65,13 @@ namespace Logic.Database
                 Surname = lname,
                 Login = login,
                 Password = password,
-                Email = email
-            };
-
+                Email = email,
+                Wishlist = new List<DbConcert>()
+        };
+            
             // add new user to database
             context.Users.Add(dbUser);
+
             context.SaveChanges();
         }
 

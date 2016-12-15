@@ -14,7 +14,7 @@ namespace Logic.Database
     {
         public Context() : base("localsql")
         {
-            
+            System.Data.Entity.Database.SetInitializer(new MigrateDatabaseToLatestVersion<Context, Migrations.Configuration>());
         }
 
         public DbSet<DbConcert> Concerts { get; set; }
