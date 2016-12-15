@@ -5,32 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConcertAdvicerApp.Screens"
         mc:Ignorable="d"
-        Title="ContentWindow" Loaded="Window_Loaded">
+        Title="Concerts" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
-            <MenuItem Header="Options">
+            <MenuItem Header="Actions">
                 <MenuItem x:Name="UpdateDBMenuItem" Click="UpdateDBMenuItem_OnClick" Header="Update database" />
                 <Separator />
                 <MenuItem x:Name="LogoutMenuItem" Click="LogoutMenuItem_OnClick" Header="Logout" />
                 <MenuItem x:Name="CloseMenuItem" Click="CloseMenuItem_OnClick" Header="Close" />
             </MenuItem>
-            <MenuItem Header="Actions" />
         </Menu>
-        <TabControl Grid.Row="1" Margin="5">
-            <TabItem Header="Wishlist">
+        <TabControl Grid.Row="1" Margin="5" >
+            <TabItem Header="Wishlist" Loaded="wishlistLoaded_OnLoaded" >
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <ToolBar Grid.Row="0">
-                        <Button>priv</Button>
+                        <Button x:Name="clearWishlistButton" Click="ClearWishlistButton_OnClick">Clear</Button>
+                        <Button x:Name="refreshWishlistButton" Click="RefreshWishlistButton_OnClick">Refresh</Button>
                     </ToolBar>
-                    <DataGrid x:Name="WishlistDataGrid" Grid.Row="1" />
+                    <DataGrid x:Name="WishlistDataGrid" Grid.Row="1" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu >
+                                <MenuItem Header="More info"/>
+                                <MenuItem Header="Remove from wishlist" Click="removeFromWishlist_OnClick"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Browse" Loaded="browse_Loaded">
@@ -45,10 +52,11 @@
                         <DatePicker x:Name="toDatePicker" Margin="5" />
                         <Button Margin="5" Click="browseShow_OnClick">Show</Button>
                     </ToolBar>
-                    <DataGrid x:Name="BrowseDataGrid" Grid.Row="1" IsReadOnly="True">
+                    <DataGrid x:Name="BrowseDataGrid" Grid.Row="1" IsReadOnly="True" SelectionMode="Single">
                         <DataGrid.ContextMenu>
                             <ContextMenu >
-                                <MenuItem Header="Add to wishlist" />
+                                <MenuItem Header="More info"></MenuItem>
+                                <MenuItem Header="Add to wishlist" Click="addToWishList_OnClick"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                     </DataGrid>

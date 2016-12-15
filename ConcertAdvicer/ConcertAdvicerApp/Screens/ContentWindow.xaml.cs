@@ -50,14 +50,10 @@ namespace ConcertAdvicerApp.Screens
             Close();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            WishlistDataGrid.ItemsSource = Repository.UserWishlist();
-        }
-
         private void browse_Loaded(object sender, RoutedEventArgs e)
         {
             cityComboBox.ItemsSource = Repository.GetCityShortingDictionary().Keys.ToList();
+            cityComboBox.SelectedIndex = 1;
             fromDatePicker.SelectedDate = DateTime.Now;
             toDatePicker.SelectedDate = DateTime.Now.AddMonths(1);
         }
@@ -71,11 +67,66 @@ namespace ConcertAdvicerApp.Screens
                 dictionary[cityComboBox.Text],
                 fromDatePicker.SelectedDate.Value,
                 toDatePicker.SelectedDate.Value);
+            formatGrids();
+        }
+
+        private void addToWishList_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (BrowseDataGrid.SelectedItem != null)
+                try
+                {
+                    Repository.AddToWishlist((BrowseDataGrid.SelectedItem as Concert).ID);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+        }
+
+        private void wishlistLoaded_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            WishlistDataGrid.ItemsSource = Repository.UserWishlist();
+            formatGrids();
+        }
+
+        private void formatGrids()
+        {
+            WishlistDataGrid.Columns.ToList().Where(c =>
+                c.Header.Equals("ID") ||
+                c.Header.Equals("Description") ||
+                c.Header.Equals("Location") ||
+                c.Header.Equals("URL")).ToList().ForEach(column => column.Visibility = Visibility.Hidden);
+
             BrowseDataGrid.Columns.ToList().Where(c =>
                 c.Header.Equals("ID") ||
                 c.Header.Equals("Description") ||
                 c.Header.Equals("Location") ||
                 c.Header.Equals("URL")).ToList().ForEach(column => column.Visibility = Visibility.Hidden);
+        }
+
+        private void removeFromWishlist_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (WishlistDataGrid.SelectedItem != null)
+                Repository.RemoveFromWishlist((WishlistDataGrid.SelectedItem as Concert).ID);
+
+            WishlistDataGrid.ItemsSource = Repository.UserWishlist();
+            formatGrids();
+        }
+
+        private void ClearWishlistButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in WishlistDataGrid.Items)
+            {
+                Repository.RemoveFromWishlist((item as Concert).ID);
+            }
+            WishlistDataGrid.ItemsSource = Repository.UserWishlist();
+            formatGrids();
+        }
+
+        private void RefreshWishlistButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            WishlistDataGrid.ItemsSource = Repository.UserWishlist();
+            formatGrids();
         }
     }
 }
