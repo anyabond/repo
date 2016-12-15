@@ -129,7 +129,10 @@ namespace Logic.Database
         /// <returns>Concerts in wishlist of current user</returns>
         public List<Concert> UserWishlist()
         {
-            return currentUser.Wishlist.ConvertAll(c => c.ToConcert());
+            if (currentUser?.Wishlist != null)
+                return currentUser.Wishlist.ConvertAll(c => c.ToConcert());
+
+            return new List<Concert>();
         }
 
         /// <summary>
