@@ -17,6 +17,7 @@ namespace Logic.Migrations
 
         protected override void Seed(Logic.Database.Context context)
         {
+            if (context.Database.Exists()) return;
             DataLoader dl = new DataLoader();
             foreach (DbConcert concert in dl.GetConcerts())
             {
