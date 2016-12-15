@@ -5,32 +5,55 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConcertAdvicerApp.Screens"
         mc:Ignorable="d"
-        Title="ContentWindow">
+        Title="ContentWindow" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            
-        </Grid>
-        <TabPanel Grid.Row="1">
+        <Menu Grid.Row="0">
+            <MenuItem Header="Options">
+                <MenuItem x:Name="UpdateDBMenuItem" Click="UpdateDBMenuItem_OnClick" Header="Update database" />
+                <Separator />
+                <MenuItem x:Name="LogoutMenuItem" Click="LogoutMenuItem_OnClick" Header="Logout" />
+                <MenuItem x:Name="CloseMenuItem" Click="CloseMenuItem_OnClick" Header="Close" />
+            </MenuItem>
+            <MenuItem Header="Actions" />
+        </Menu>
+        <TabControl Grid.Row="1" Margin="5">
             <TabItem Header="Wishlist">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
+                    <ToolBar Grid.Row="0">
+                        <Button>priv</Button>
+                    </ToolBar>
+                    <DataGrid x:Name="WishlistDataGrid" Grid.Row="1" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Browse">
+            <TabItem Header="Browse" Loaded="browse_Loaded">
                 <Grid>
                     <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
+                    <ToolBar Grid.Row="0">
+                        <ComboBox x:Name="cityComboBox" ToolTip="City" Margin="5" />
+                        <DatePicker x:Name="fromDatePicker" Margin="5" />
+                        <DatePicker x:Name="toDatePicker" Margin="5" />
+                        <Button Margin="5" Click="browseShow_OnClick">Show</Button>
+                    </ToolBar>
+                    <DataGrid x:Name="BrowseDataGrid" Grid.Row="1" IsReadOnly="True">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu >
+                                <MenuItem Header="Add to wishlist" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
                 </Grid>
             </TabItem>
-        </TabPanel>
+        </TabControl>
     </Grid>
 </Window>
