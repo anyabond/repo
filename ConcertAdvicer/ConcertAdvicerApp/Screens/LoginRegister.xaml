@@ -1,0 +1,63 @@
+﻿<Window x:Class="ConcertAdvicerApp.Screens.LoginRegister"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ConcertAdvicerApp.Screens"
+        mc:Ignorable="d"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Title="" SizeToContent="Height" Width="300">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Login">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0">Login</Label>
+                    <TextBox x:Name="loginTextBox" Grid.Row="1" />
+                    <Label Grid.Row="2">Password</Label>
+                    <PasswordBox x:Name="passwordBox" Grid.Row="3" />
+                    <Button x:Name="loginButton" Grid.Row="4" Margin="5" Click="loginButton_Click">Login</Button>
+                    <Label x:Name="loginErrorLabel" Grid.Row="6" Foreground="Red" HorizontalContentAlignment="Center"></Label>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Register">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0">Login</Label>
+                    <TextBox x:Name="newLoginTextBox" Grid.Row="1" />
+                    <Label Grid.Row="2">Password</Label>
+                    <PasswordBox x:Name="newPasswordBox" Grid.Row="3" />
+                    <Label Grid.Row="4">Name</Label>
+                    <TextBox x:Name="nameTextBox" Grid.Row="5" />
+                    <Label Grid.Row="6">Surname</Label>
+                    <TextBox x:Name="surnameTextBox" Grid.Row="7" />
+                    <Label Grid.Row="8">Email</Label>
+                    <TextBox x:Name="emailTextBox" Grid.Row="9" />
+                    <Button x:Name="registerButton" Grid.Row="10" Margin="5" Click="registerButton_Click">Register</Button>
+                    <Label x:Name="registerErrorLabel" Foreground="Red" HorizontalContentAlignment="Center" Grid.Row="11"></Label>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
