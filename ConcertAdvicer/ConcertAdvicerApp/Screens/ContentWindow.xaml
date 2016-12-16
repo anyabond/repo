@@ -27,13 +27,13 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <ToolBar Grid.Row="0">
-                        <Button x:Name="clearWishlistButton" Click="ClearWishlistButton_OnClick">Clear</Button>
-                        <Button x:Name="refreshWishlistButton" Click="RefreshWishlistButton_OnClick">Refresh</Button>
+                        <Button x:Name="clearWishlistButton" Click="ClearWishlistButton_OnClick" Margin="5">Clear</Button>
+                        <Button x:Name="refreshWishlistButton" Click="RefreshWishlistButton_OnClick" Margin="5">Refresh</Button>
                     </ToolBar>
                     <DataGrid x:Name="WishlistDataGrid" Grid.Row="1" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
                         <DataGrid.ContextMenu>
                             <ContextMenu >
-                                <MenuItem Header="More info"/>
+                                <MenuItem Header="More info" Click="WishlistMoreInfo_OnClick"/>
                                 <MenuItem Header="Remove from wishlist" Click="removeFromWishlist_OnClick"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
@@ -55,7 +55,7 @@
                     <DataGrid x:Name="BrowseDataGrid" Grid.Row="1" IsReadOnly="True" SelectionMode="Single">
                         <DataGrid.ContextMenu>
                             <ContextMenu >
-                                <MenuItem Header="More info"></MenuItem>
+                                <MenuItem Header="More info" Click="BrowseMoreInfo_OnClick"></MenuItem>
                                 <MenuItem Header="Add to wishlist" Click="addToWishList_OnClick"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>

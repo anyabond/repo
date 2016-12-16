@@ -24,7 +24,7 @@
                     <TextBox x:Name="loginTextBox" Grid.Row="1" />
                     <Label Grid.Row="2">Password</Label>
                     <PasswordBox x:Name="passwordBox" Grid.Row="3" />
-                    <Button x:Name="loginButton" Grid.Row="4" Margin="5" Click="loginButton_Click">Login</Button>
+                    <Button x:Name="loginButton" Grid.Row="4" Margin="5" Click="loginButton_Click" Background="White">Login</Button>
                     <Label x:Name="loginErrorLabel" Grid.Row="6" Foreground="Red" HorizontalContentAlignment="Center"></Label>
                 </Grid>
             </TabItem>
@@ -54,7 +54,7 @@
                     <TextBox x:Name="surnameTextBox" Grid.Row="7" />
                     <Label Grid.Row="8">Email</Label>
                     <TextBox x:Name="emailTextBox" Grid.Row="9" />
-                    <Button x:Name="registerButton" Grid.Row="10" Margin="5" Click="registerButton_Click">Register</Button>
+                    <Button x:Name="registerButton" Grid.Row="10" Margin="5" Click="registerButton_Click" Background="White">Register</Button>
                     <Label x:Name="registerErrorLabel" Foreground="Red" HorizontalContentAlignment="Center" Grid.Row="11"></Label>
                 </Grid>
             </TabItem>

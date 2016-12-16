@@ -35,8 +35,10 @@ namespace ConcertAdvicerApp.Screens
             this.Close();
         }
 
+        // updating database
         private void UpdateDBMenuItem_OnClick(object sender, RoutedEventArgs e)
         {
+            // updating in the different thread to notify user about start and complition
             Thread back = new Thread(Repository.UpdateDb);
             back.Start();
             MessageBox.Show("Updating database");
@@ -50,6 +52,7 @@ namespace ConcertAdvicerApp.Screens
             Close();
         }
 
+        // fill fields on browse screen with cities and dates
         private void browse_Loaded(object sender, RoutedEventArgs e)
         {
             cityComboBox.ItemsSource = Repository.GetCityShortingDictionary().Keys.ToList();
@@ -83,12 +86,14 @@ namespace ConcertAdvicerApp.Screens
                 }
         }
 
+        // show wishlist after login
         private void wishlistLoaded_OnLoaded(object sender, RoutedEventArgs e)
         {
             WishlistDataGrid.ItemsSource = Repository.UserWishlist();
             formatGrids();
         }
 
+        // hide reundant columns
         private void formatGrids()
         {
             WishlistDataGrid.Columns.ToList().Where(c =>
@@ -115,10 +120,8 @@ namespace ConcertAdvicerApp.Screens
 
         private void ClearWishlistButton_OnClick(object sender, RoutedEventArgs e)
         {
-            foreach (var item in WishlistDataGrid.Items)
-            {
-                Repository.RemoveFromWishlist((item as Concert).ID);
-            }
+            Repository.UserWishlist().ForEach(conc=>Repository.RemoveFromWishlist(conc.ID));
+
             WishlistDataGrid.ItemsSource = Repository.UserWishlist();
             formatGrids();
         }
@@ -127,6 +130,36 @@ namespace ConcertAdvicerApp.Screens
         {
             WishlistDataGrid.ItemsSource = Repository.UserWishlist();
             formatGrids();
+        }
+
+        private void WishlistMoreInfo_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (WishlistDataGrid.SelectedItem == null) return;
+            Concert concert = WishlistDataGrid.SelectedItem as Concert;
+            
+            ShowInfo(concert);
+        }
+
+        private void BrowseMoreInfo_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (BrowseDataGrid.SelectedItem == null) return;
+            Concert concert = BrowseDataGrid.SelectedItem as Concert;
+
+            ShowInfo(concert);
+        }
+
+        private void ShowInfo(Concert concert)
+        {
+            MoreInfo mi = new MoreInfo
+            {
+                TitleTextBox = { Text = concert.Title },
+                DateTextBox = { Text = concert.Date.Value.ToShortDateString() + " " + concert.Date.Value.ToShortTimeString() },
+                PriceTextBox = { Text = concert.Price },
+                DescriptionTextBox = { Text = concert.Description },
+                URTextBox = { Text = concert.URL }
+            };
+
+            mi.Show();
         }
     }
 }

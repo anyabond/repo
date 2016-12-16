@@ -20,6 +20,7 @@ namespace ConcertAdvicerApp.Screens
     public partial class LoginRegister : Window
     {
         private Repository rep { get; }
+
         public LoginRegister()
         {
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -49,6 +50,16 @@ namespace ConcertAdvicerApp.Screens
 
         private void registerButton_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(newLoginTextBox.Text) ||
+                string.IsNullOrEmpty(newPasswordBox.Password) ||
+                string.IsNullOrEmpty(nameTextBox.Text) ||
+                string.IsNullOrEmpty(surnameTextBox.Text) ||
+                string.IsNullOrEmpty(emailTextBox.Text))
+            {
+                registerErrorLabel.Content = "Some fields are empty!";
+                return;
+            }
+
             if (rep.LoginUsed(newLoginTextBox.Text))
             {
                 registerErrorLabel.Content = "Login used!";
